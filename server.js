@@ -2,6 +2,7 @@ const express = require("express");
 // Import and require mysql2
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 
 const PORT = process.env.PORT || 3306;
 const app = express();
@@ -24,7 +25,7 @@ const db = mysql.createConnection(
 );
 
 // Query database
-db.query('SELECT * FROM employee_table', function (err, results) {
+db.query("SELECT * FROM employee_table", function (err, results) {
   // console.log(results);
 });
 startMenu();
@@ -58,28 +59,28 @@ function startMenu() {
       ],
     })
     .then((answers) => {
-      console.log(answers)
+      console.log(answers);
       if (answers.main_menu === "view all departments") {
         viewAllDepartments();
-      } else if (answers.main_menu === "view all roles" ) {
+      } else if (answers.main_menu === "view all roles") {
         viewAllRoles();
-      } else if (answers.main_menu === "view all employees" ) {
+      } else if (answers.main_menu === "view all employees") {
         viewAllEmployees();
-      } else if (answers.main_menu === "add a department" ) {
+      } else if (answers.main_menu === "add a department") {
         addADepartment();
-      } else if (answers.main_menu === "add a role" ) {
+      } else if (answers.main_menu === "add a role") {
         addARole();
-      } else if (answers.main_menu === "add an employee" ) {
+      } else if (answers.main_menu === "add an employee") {
         addAnEmployee();
-      } else if (answers.main_menu === "update an employee role" ) {
+      } else if (answers.main_menu === "update an employee role") {
         updateAnEmployeeRole();
-      } else if (answers.main_menu === "quit" ) {
+      } else if (answers.main_menu === "quit") {
         quitMenu();
         console.log(JSON.stringify(answers, null, "  "));
-     } else {
-      console.log("im gonig to quit")
-     }
-})
+      } else {
+        console.log("im gonig to quit");
+      }
+    })
     .catch((error) => {
       if (error.isTtyError) {
         console.log(error);
@@ -92,32 +93,144 @@ function startMenu() {
 }
 
 function viewAllDepartments() {
-  db.query('SELECT * FROM department_table', function (err, results) {
+  db.query("SELECT * FROM department_table", function (err, results) {
     if (err) {
-      console.log("error retunred " , err);
+      console.log("error retunred ", err);
+    } else {
+      console.table(results);
+      startMenu();
     }
-    console.log(results);
   });
-  console.log('viewAllDepartments');
 }
 function viewAllRoles() {
-  console.log('viewAllRoles');
+  db.query("SELECT * FROM role_table", function (err, results) {
+    if (err) {
+      console.log("error retunred ", err);
+    } else {
+      console.table(results);
+      startMenu();
+    }
+  });
 }
 function viewAllEmployees() {
-  console.log('viewAllEmployees');
+  db.query("SELECT * FROM employee_table", function (err, results) {
+    if (err) {
+      console.log("error retunred ", err);
+    } else {
+      console.table(results);
+      startMenu();
+    }
+  });
 }
 function addADepartment() {
-  console.log('addADepartment');
+  const questions = [
+    {
+      type: "input",
+      name: "department_name",
+      message: "What's your department name",
+    },
+    {
+      type: "input",
+      name: "department_id",
+      message: "What's your department ID",
+    },
+  ];
+  inquirer.prompt(questions).then((answers) => {
+    console.log(JSON.stringify(answers, null, "  "));
+    db.query(
+      'INSERT INTO department_table (id, department_name) VALUES (' + answers.department_id + ',"' + answers.department_name + '")',
+      function (err, results) {
+        if (err) {
+          console.log("error retunred ", err);
+        } else {
+          startMenu();
+        }
+      }
+    );
+  });
 }
 function addARole() {
-  console.log('addARole');
+  const questions = [
+    {
+      type: "input",
+      name: "role_id",
+      message: "What's your role ID",
+    },
+    {
+      type: "input",
+      name: "department_id",
+      message: "What's your department ID",
+    },
+    {
+      type: "input",
+      name: "title_name",
+      message: "What's your job title",
+    },
+    {
+      type: "input",
+      name: "salary",
+      message: "What's your salary",
+    },
+  ];
+  inquirer.prompt(questions).then((answers) => {
+    console.log(JSON.stringify(answers, null, "  "));
+    db.query(
+      'INSERT INTO role_table (id, title, salary, department_id) VALUES ('+ answers.role_id +',"' + answers.title_name + '",' + answers.salary +',' + answers.department_id + ')',
+      function (err, results) {
+        if (err) {
+          console.log("error retunred ", err);
+        } else {
+          startMenu();
+        }
+      }
+    );
+  });
 }
 function addAnEmployee() {
-  console.log('addAnEmployee');
+  const questions = [
+    {
+      type: "input",
+      name: "employee_id",
+      message: "What's your employee ID",
+    },
+    {
+      type: "input",
+      name: "first_name",
+      message: "What's your first name",
+    },
+    {
+      type: "input",
+      name: "last_name",
+      message: "What's your last name",
+    },
+    {
+      type: "input",
+      name: "role_id",
+      message: "What's your role id",
+    },
+    {
+      type: "input",
+      name: "manager_id",
+      message: "What's your manager id",
+    },
+  ];
+  inquirer.prompt(questions).then((answers) => {
+    console.log(JSON.stringify(answers, null, "  "));
+    db.query(
+      'INSERT INTO employee_table (id, first_name, last_name, role_id, manager_id) VALUES (' + answers.employee_id + ',"' + answers.first_name + '","' + answers.last_name + '",' + answers.role_id + ',' + answers.manager_id + ')',
+      function (err, results) {
+        if (err) {
+          console.log("error retunred ", err);
+        } else {
+          startMenu();
+        }
+      }
+    );
+  });
 }
 function updateAnEmployeeRole() {
-  console.log('updateAnEmployeeRole');
+  console.log("updateAnEmployeeRole");
 }
 function quitMenu() {
-  console.log('quitMenu');
+  console.log("quitMenu");
 }
