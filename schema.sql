@@ -3,11 +3,13 @@ CREATE DATABASE employee_db;
 
 USE employee_db;
 
+-- 'department' table
 CREATE TABLE department_table (
   id INT NOT NULL,
   department_name VARCHAR(30) NOT NULL
 );
 
+-- 'role' table
 CREATE TABLE role_table (
   id INT NOT NULL,
   title VARCHAR(30) NOT NULL,
@@ -15,6 +17,7 @@ CREATE TABLE role_table (
   department_id INT NOT NULL
 );
 
+-- 'employee' table
 CREATE TABLE employee_table (
   id INT NOT NULL,
   first_name VARCHAR(30) NOT NULL,

@@ -1,13 +1,13 @@
 INSERT INTO department_table (id, department_name)
 VALUES (001, "Shipping"),
        (002, "Sales"),
-       (003,"HR")
+       (003,"HR"),
        (004, "Marketing"),
-       (005,  "Graphic Design");
-       (006, "Production");
-       (007, "IT");
-       (008, "Customer Support");
-       (009, "Compliance");
+       (005,  "Graphic Design"),
+       (006, "Production"),
+       (007, "IT"),
+       (008, "Customer Support"),
+       (009, "Compliance"),
        (010, "Training");
        
 INSERT INTO role_table (id, title, salary, department_id)
@@ -28,10 +28,10 @@ VALUES (001, "Shipping Manager", 30000, 001),
        (014, "IT Developer", 50000, 007);
 
        INSERT INTO employee_table (id, first_name, last_name, role_id, manager_id)
-VALUES (001, "John", "Fishman" 001, 015),
+VALUES (001, "John", "Fishman", 001, 015),
        (002, "Billy", "Sellerman", 011, 001),
-       (003,"Barack", "Obama", 011, 001)
-       (004, "Jimmy" , "Kimmel" 011, 001),
+       (003,"Barack", "Obama", 011, 001),
+       (004, "Jimmy" , "Kimmel", 011, 001),
        (005,  "Viggo", "Mortenstein", 012, 007 ),
        (006, "Timmy", "Apple", 012, 007 ),
        (007, "Josh", "Samsung", 009, 014 ),
