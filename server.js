@@ -30,16 +30,6 @@ db.query("SELECT * FROM employee_table", function (err, results) {
 });
 startMenu();
 
-// Default response for any other request (Not Found)
-// app.use((req, res) => {
-//   res.status(404).end();
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-//   startMenu();
-// });
-
 // write message to screen
 function startMenu() {
   inquirer
@@ -58,6 +48,7 @@ function startMenu() {
         "quit",
       ],
     })
+    // ask the questions
     .then((answers) => {
       console.log(answers);
       if (answers.main_menu === "view all departments") {
@@ -91,7 +82,7 @@ function startMenu() {
       }
     });
 }
-
+// view all departments function
 function viewAllDepartments() {
   db.query("SELECT * FROM department_table", function (err, results) {
     if (err) {
@@ -102,6 +93,7 @@ function viewAllDepartments() {
     }
   });
 }
+// view all roles function
 function viewAllRoles() {
   db.query("SELECT * FROM role_table", function (err, results) {
     if (err) {
@@ -112,6 +104,7 @@ function viewAllRoles() {
     }
   });
 }
+// view all employees function
 function viewAllEmployees() {
   db.query("SELECT * FROM employee_table", function (err, results) {
     if (err) {
@@ -122,6 +115,7 @@ function viewAllEmployees() {
     }
   });
 }
+// add a department function
 function addADepartment() {
   const questions = [
     {
@@ -153,6 +147,7 @@ function addADepartment() {
     );
   });
 }
+// add a role function
 function addARole() {
   const questions = [
     {
@@ -198,6 +193,7 @@ function addARole() {
     );
   });
 }
+// add an employee function
 function addAnEmployee() {
   const questions = [
     {
@@ -251,6 +247,7 @@ function addAnEmployee() {
     );
   });
 }
+// update an employee function
 function updateAnEmployeeRole() {
   const questions = [
     {
@@ -296,7 +293,7 @@ function updateAnEmployeeRole() {
     );
   });
 }
-
+// quit menu function
 function quitMenu() {
   db.end();
 }
