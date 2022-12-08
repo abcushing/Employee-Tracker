@@ -13,7 +13,7 @@ VALUES (001, "Shipping"),
 INSERT INTO role_table (id, title, salary, department_id)
 VALUES (001, "Shipping Manager", 30000, 001),
        (002, "Sales Manager", 35000, 002),
-       (003,"HR Lead", 40000, 003)
+       (003,"HR Lead", 40000, 003),
        (004, "Marketing Manager", 33000, 004),
        (005,  "Lead Graphic Designer", 25000, 005 ),
        (006, "Production Manager", 32000, 006),

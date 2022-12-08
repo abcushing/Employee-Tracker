@@ -138,7 +138,11 @@ function addADepartment() {
   inquirer.prompt(questions).then((answers) => {
     console.log(JSON.stringify(answers, null, "  "));
     db.query(
-      'INSERT INTO department_table (id, department_name) VALUES (' + answers.department_id + ',"' + answers.department_name + '")',
+      "INSERT INTO department_table (id, department_name) VALUES (" +
+        answers.department_id +
+        ',"' +
+        answers.department_name +
+        '")',
       function (err, results) {
         if (err) {
           console.log("error retunred ", err);
@@ -175,7 +179,15 @@ function addARole() {
   inquirer.prompt(questions).then((answers) => {
     console.log(JSON.stringify(answers, null, "  "));
     db.query(
-      'INSERT INTO role_table (id, title, salary, department_id) VALUES ('+ answers.role_id +',"' + answers.title_name + '",' + answers.salary +',' + answers.department_id + ')',
+      "INSERT INTO role_table (id, title, salary, department_id) VALUES (" +
+        answers.role_id +
+        ',"' +
+        answers.title_name +
+        '",' +
+        answers.salary +
+        "," +
+        answers.department_id +
+        ")",
       function (err, results) {
         if (err) {
           console.log("error retunred ", err);
@@ -217,11 +229,22 @@ function addAnEmployee() {
   inquirer.prompt(questions).then((answers) => {
     console.log(JSON.stringify(answers, null, "  "));
     db.query(
-      'INSERT INTO employee_table (id, first_name, last_name, role_id, manager_id) VALUES (' + answers.employee_id + ',"' + answers.first_name + '","' + answers.last_name + '",' + answers.role_id + ',' + answers.manager_id + ')',
+      "INSERT INTO employee_table (id, first_name, last_name, role_id, manager_id) VALUES (" +
+        answers.employee_id +
+        ',"' +
+        answers.first_name +
+        '","' +
+        answers.last_name +
+        '",' +
+        answers.role_id +
+        "," +
+        answers.manager_id +
+        ")",
       function (err, results) {
         if (err) {
           console.log("error retunred ", err);
         } else {
+          console.log("Added an Employee");
           startMenu();
         }
       }
@@ -229,8 +252,51 @@ function addAnEmployee() {
   });
 }
 function updateAnEmployeeRole() {
-  console.log("updateAnEmployeeRole");
+  const questions = [
+    {
+      type: "input",
+      name: "first_name",
+      message: "What's your first name",
+    },
+    {
+      type: "input",
+      name: "last_name",
+      message: "What's your last name",
+    },
+    {
+      type: "input",
+      name: "role_id",
+      message: "What's your new role id",
+    },
+  ];
+  inquirer.prompt(questions).then((answers) => {
+    db.query(
+      "SELECT id FROM employee_table WHERE first_name = '" +
+        answers.first_name +
+        "' and last_name = '" +
+        answers.last_name + "'",
+      function (err, results) {
+        console.log(results)
+        if (err) {
+          console.log("error retunred ", err);
+        } else {
+          db.query(
+            "UPDATE employee_table SET role_id= "+ answers.role_id + " WHERE id = " + results[0].id ,
+            function (err, results) {
+              if (err) {
+                console.log("error retunred ", err);
+              } else {
+                console.log("Updated an Employee");
+                startMenu();
+              }
+            }
+          );
+        }
+      }
+    );
+  });
 }
+
 function quitMenu() {
-  console.log("quitMenu");
+  db.end();
 }
